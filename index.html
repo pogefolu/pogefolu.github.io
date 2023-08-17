@@ -129,6 +129,9 @@
             <button onclick="clipboard_current_timeline()" class="b-special">
               Copy to Clipboard
             </button>
+            <button onclick="save_current_timeline()" class="b-special">
+              Save
+            </button>
           </div>
 
           <div style="margin-top:20px"></div>
@@ -152,7 +155,7 @@
 
           <div class='category line' onclick="simple_hide_toggle(this, 'bcont-mod-render')"> RENDERING </div>
           <div id="bcont-mod-render" class="bcontainer">
-            <button onclick="render_timeline('canvas')" class="b-special">Save</button>
+            <button onclick="save_mod('canvas')" class="b-special">Save</button>
           </div>
         </div>
       </div>

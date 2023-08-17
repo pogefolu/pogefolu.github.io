@@ -384,22 +384,22 @@ const PRINCIPAL = {
     'corruption_points': ["office_boob_tease", "revealing_outfit", "office_flirt", "control_tease", "revealing_outfit_distraction", "allowed_rules_exception"] }
 
 const STUDENT = {
-    'name': 'student',
-    'gender': 'male',
+	'name': 'student',
+	'gender': 'male',
 
-    'stats': ["arousal", "control", "corruption_level", "arousal_scaled", "control_scaled"],
+	'stats': ["arousal", "control", "corruption_level", "arousal_scaled", "control_scaled"],
 
-    'requirements': [ "npc_control_requirement", "npc_arousal_requirement", 
+	'requirements': [ "npc_control_requirement", "npc_arousal_requirement", 
                       "npc_money_requirement", "npc_corruption_requirement" ],
 
     'clickable' : ["bully_gym_class_location", "classroom_student_default_location", "classroom_student_english_location"],
 
     'outfit' : [],
 
-    'frames': ["cock_frame", "masturbation_frame"],
+	'frames': ["cock_frame", "masturbation_frame"],
 
     'animations': {
-            "Body": ["panties_masturbation_animation"],
+    		"Body": ["panties_masturbation_animation"],
             "Cock": [
                 "dick_twitch_animation", "climax_twitch_animation",
                 "apply_condom_animation",
@@ -414,30 +414,9 @@ const STUDENT = {
         "gloryhole_encounter", "gloryhole_handjob",
         "gym_tits_tease", "gym_flash_tits" ]
 }
-
-const BLACKMAILER = {
-    'name': 'blackmailer',
-    'gender': 'male',
-
-    'stats': ["arousal", "control", "corruption_level", "arousal_scaled", "control_scaled"],
-
-    'requirements': [ "npc_control_requirement", "npc_arousal_requirement", 
-                      "npc_money_requirement", "npc_corruption_requirement" ],
-
-    'clickable' : [],
-
-    'outfit' : [],
-
-    'frames': [],
-
-    'animations': {},
-
-    'corruption_points': []
-}
             
 
 // Alphabetic Order
 const CHARACTERS = {
     'busty': BUSTY, 'cheerleader': CHEERLEADER, 'firebrand': FIREBRAND, 'goth': GOTH, 'jock': JOCK,
-    'mom': MOM, 'nerd': NERD, 'principal': PRINCIPAL, 'slacker': SLACKER, 'student': STUDENT,
-    'blackmailer': BLACKMAILER } 
+    'mom': MOM, 'nerd': NERD, 'principal': PRINCIPAL, 'slacker': SLACKER, 'student': STUDENT } 
