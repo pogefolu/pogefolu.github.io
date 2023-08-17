@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Very Full Editor</title>
+    <link rel="stylesheet" href="../theme/css.css">
+    <link rel="icon" type="image/png" href="../theme/icon.png" sizes="32x32">
+  </head>
+
+  <style type="text/css">
+    .tab{
+      display: flex;
+      flex-flow: column nowrap;
+      margin: 22px 0;
+    }
+    .tab-buttons{
+      display: flex;
+      flex-flow: row nowrap;
+    }
+    .tab-button{
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+    }
+    .tab-button.sel{
+      background: rgba(0,0,0,0.25);
+      border-bottom: none;
+    }
+    .tab-window{
+      background: rgba(0,0,0,0.25);
+      padding: 0 16px 16px 16px;
+      border-radius: 8px;
+      border-top-left-radius: 0;
+    }
+    code{
+      background: rgba(255,255,255,0.1);
+      padding: 4px;
+      border-radius: 4px;
+    }
+  </style>
+
+  <script>
+    function show_tab(id, i, n){
+      for(let j = 0; j <= n; j++) {
+        document.getElementById(id+'-'+j).style.display = 'none'
+        document.getElementById(id+'-b-'+j).className = 'tab-button'
+      }
+      document.getElementById(id+'-'+i).style.display = ''
+      document.getElementById(id+'-b-'+i).className = 'tab-button sel'
+    }
+  </script>
+
+  <body style="padding:20px; width:800px; font-size:120%; margin:auto; margin-bottom: 40px; text-align: justify;">
+    <h1>A Very Full Editor</h1>
+    Hello and welcome to this "documentation" to use this tool! I hope everything will be clear enough for everyone, and thank you for using it!<br>
+    This tool was made to create mods for the game "A Very Full House". As I write this guide, it only supports "scenes" additions, i.e. text interactions, animations, phone messages etc...
+    If you are looking for a tool to add a new menu, or new clothes, then I fear this tool is not (yet) for you.
+
+    <h3>Important</h3>
+    Most of the "input areas" come with a context menu, so be sure to check the right-click for easy insertions, such as variables' values, special functions, conditions etc... ;).
+
+    <h2>Creating a scene</h2>
+    To create a new scene, click on the "New Scene" button on the left of the screen.
+    As default, a new scene is automatically added upon loading the page.<br>
+    To load the scene, simply click on it. You should see the right menu appears with all buttons.
+
+    <h2>Basic Widgets</h2>
+    <div class="tab" id="basic-tab">
+      <div class='tab-buttons'>
+        <div id='basic-tab-b-0' class='tab-button sel' onclick="show_tab('basic-tab', 0, 4)">Text</div>
+        <div id='basic-tab-b-1' class='tab-button' onclick="show_tab('basic-tab', 1, 4)">Message</div>
+        <div id='basic-tab-b-2' class='tab-button' onclick="show_tab('basic-tab', 2, 4)">Picture</div>
+        <div id='basic-tab-b-3' class='tab-button' onclick="show_tab('basic-tab', 3, 4)">Animation</div>
+        <div id='basic-tab-b-4' class='tab-button' onclick="show_tab('basic-tab', 4, 4)">Frame</div>
+      </div>
+
+      <div class="tab-window" id="basic-tab-0">
+        <h3>Text [ALT+T]</h3>
+        The Text widget is the widget used for ingame dialogs.<br>
+        First parameter is the character who speaks. The empty value is meant for narration.<br>
+        The textbox is where your dialog goes. You can insert a variable's value by putting it between <code>[]</code>. Thus, <code>[mom.first_name]</code> will show the ingame name of the mom.<br>
+        You can put your text in <b>bold</b> or <i>italic</i> by surrounding it with <code>{b}bold tags{/b}</code> or <code>{i}italic tags{/i}</code>.<br>
+        A context menu is provided for this widget.
+      </div>
+
+      <div class="tab-window" id="basic-tab-1" style="display:none">
+        <h3>Message</h3>
+        The Message widget is the widget used for sending phone messages.<br>
+        First parameter is the sender, second parameter is the receiver.<br>
+        <ul>
+          <li>Seen: The message will automatically be marked as seen (no notification).</li>
+          <li>Interact: The timeline will stop unless the user provides a feedback (click).</li>
+          <li>Response: The function that will be called upon interacting with the message.</li>
+        </ul>
+        A context menu is provided for this widget, similar to the one for Text.
+      </div>
+
+      <div class="tab-window" id="basic-tab-2" style="display:none">
+        <h3>Picture</h3>
+        The Picture widget is the widget used for sending phone pictures.<br>
+        First parameter is the sender, second parameter is the receiver.<br>
+        <ul>
+          <li>Seen: The message will automatically be marked as seen (no notification).</li>
+          <li>Interact: The timeline will stop unless the user provides a feedback (click).</li>
+          <li>Response: The function that will be called upon interacting with the message.</li>
+        </ul>
+        The image field is the link to your image (relative to the folder where the executable is located).<br>
+        The caption is the caption that will be shown with the image. If the field is empty, there will be no caption.<br>
+        A context menu is provided for the caption, similar to the one for Text.
+      </div>
+
+      <div class="tab-window" id="basic-tab-3" style="display:none">
+        <h3>Animation [ALT+A]</h3>
+        The Animation widget is the widget used to play or end animations.<br>
+        First parameter is the action you want to do: Play the animation or Stop the animation. The third value "Click Animation" is to play the click animation.<br>
+        Second parameter is the character who will perform the animation.<br>
+        Third parameter is the category of the animation. This category is provided for convenience purposes. Custom Tag will allows you to play an animation corresponding to the given tag.<br>
+        Last parameter is the name of the animation, or the tag if you chose "Custom Tag" as third parameter.
+      </div>
+
+      <div class="tab-window" id="basic-tab-4" style="display:none">
+        <h3>Frame [ALT+F]</h3>
+        The Frame widget is the widget used for managing the display of frames.<br>
+        First parameter is wether you want to display or hide a certain frame, clear all frame of a certain character or clear all frames currently displayed on screen.<br>
+        Second parameter is the character to which belongs the frame you want to manage.<br>
+        Last parameter is the name of the frame you want to manage.
+      </div>
+    </div>
+
+
+    <h2>Character Widgets</h2>
+    <div class="tab" id="character-tab">
+      <div class='tab-buttons'>
+        <div id='character-tab-b-0' class='tab-button sel' onclick="show_tab('character-tab', 0, 4)">Display</div>
+        <div id='character-tab-b-1' class='tab-button' onclick="show_tab('character-tab', 1, 4)">Stat</div>
+        <div id='character-tab-b-2' class='tab-button' onclick="show_tab('character-tab', 2, 4)">Outfit</div>
+        <div id='character-tab-b-3' class='tab-button' onclick="show_tab('character-tab', 3, 4)">Sex Record</div>
+        <div id='character-tab-b-4' class='tab-button' onclick="show_tab('character-tab', 4, 4)">State</div>
+      </div>
+
+      <div class="tab-window" id="character-tab-0">
+        <h3>Display [ALT+D]</h3>
+        The Display widget is the widget that manage the characters showed on screen during dialog.<br>
+        First parameter is wether you want to show / hide a character.<br>
+        Second parameter is the character you want to manage.<br>
+        Last parameter is the emotion you want your character to have. An empty value means that they keep their current expression.
+      </div>
+
+      <div class="tab-window" id="character-tab-1" style="display:none">
+        <h3>Stat [ALT+S]</h3>
+        The Stat widget is the widget that allows to manipulate the stats of the characters.<br>
+        First parameter is the character you want to manage. The value "House" is used for general parameters, such as house stability or money.<br>
+        Second parameter is the stat you want to modify.<br>
+        Last parameter is the amount you want to add (positive value) or substract (negative value).<br>
+      </div>
+
+      <div class="tab-window" id="character-tab-2" style="display:none">
+        <h3>Outfit [ALT+O]</h3>
+        The Outfit widget is the widget that allows to manipulate the appearance of the characters.<br>
+        First parameter is the general action:
+        <ul>
+          <li>Put: Show an item on the character.</li>
+          <li>Remove: Hide an item on the character.</li>
+          <li>Set: Set the item skin for the character to the specified value.</li>
+          <li>Outfit: Change the outfit of a character.</li>
+          <li>Reset: Reset the outfit of a character.</li>
+          <li>Undress: Undress a character.</li>
+          <li>Show Cock: Remove all lower-body parts of the outfit. Reserved to male characters.</li>
+          <li>Make Hard: Specify wether you want the character to have an erection or not. Reserved to male characters.</li>
+        </ul>
+
+        Second parameter is the character you want to manage.<br>
+        Third parameter is variable, depending on the general action. It is either the item you want to manage, the outfit you want to put on or a boolean value (true/false) for the erection.<br>
+        Fourth parameter (only when select the "Set" option) is the numerical value associated to the item you want to display.
+      </div>
+
+      <div class="tab-window" id="character-tab-3" style="display:none">
+        <h3>Sex Record</h3>
+        The Sex Record widget is the widget that allows to manipulate Sex Stats.<br>
+        This is a feature used to track the "sex stats" of a character, i.e. how many times they climaxed, jerked off, etc...<br>
+        First parameter is the character who performed the action.<br>
+        Second parameter is the action performed.<br>
+        Third parameter is the character who underwent the action (if said action is to be performed with two persons).<br>
+        Checkboxes:
+        <ul>
+          <li>Self: The character performing the action reached climax during the action.</li>
+          <li>Other: The character undergoing the action reached climax during the action.</li>
+        </ul>
+      </div>
+
+      <div class="tab-window" id="character-tab-4" style="display:none">
+        <h3>State [ALT+Q]</h3>
+        The State widget is the widget that allows to manipulate the state of a character.<br>
+        The state of a character is its current location and its click interaction behavior.<br>
+        First parameter is the character you want to manage.<br>
+        Last parameter is the state you want to apply to them.
+      </div>
+    </div>
+
+
+    <h2>Branching Widgets</h2>
+    <div class="tab" id="branching-tab">
+      <div class='tab-buttons'>
+        <div id='branching-tab-b-0' class='tab-button sel' onclick="show_tab('branching-tab', 0, 2)">Menu</div>
+        <div id='branching-tab-b-1' class='tab-button' onclick="show_tab('branching-tab', 1, 2)">Choice</div>
+        <div id='branching-tab-b-2' class='tab-button' onclick="show_tab('branching-tab', 2, 2)">Condition</div>
+      </div>
+
+      <div class="tab-window" id="branching-tab-0">
+        <h3>Menu [ALT+M]</h3>
+        The Menu widget allows to create a menu for the player to make a choice. It usually is followed by a Text (prompting the user with information about the nature of the choice they have to make) and at least two "Choice" widgets (one for an actual choice, the other for the skip option).<br>
+        First parameter is the ID of the menu, useful for Choice Injection (in the modding tab).<br>
+        Second parameter is the list of parameters the menu takes, each separated by a comma.<br>
+        Third parameter is the set that you want to bind to the menu.<br>
+        I recommend checking <a style='color:skyblue;' href="https://www.renpy.org/doc/html/menus.html">Ren'Py's Menu Documentation</a>.
+      </div>
+
+      <div class="tab-window" id="branching-tab-1" style="display:none">
+        <h3>Choice [ALT+N]</h3>
+        The Choice widget is the widget that prompts the user a choice. It is always located inside a Menu widget.<br>
+        First parameter is the text that will be displayed to the user on the choice button.<br>
+        <ul>
+          <li>Requirement: Add a requirement for the choice to be selected.</li>
+          <li>Condition: Add a condition for the choice to be displayed.</li>
+        </ul>
+
+        The requirement field comes with a context menu (right click). All requirements must be separated by a comma. This field is optional.<br>
+        The condition field comes with a context menu (right click). The condition must be a valid boolean formula. This field is optional.<br>
+        Logical operations are <code>and</code> for the conjunction, <code>or</code> for the disjunction and <code>not</code> for the negation. Overall, it uses the python syntax.
+      </div>
+
+      <div class="tab-window" id="branching-tab-2" style="display:none">
+        <h3>Condition [ALT+C]</h3>
+        The Condition widget is the widget that allows branching. If the condition evaluates to <code>True</code>, then all instructions inside the widget will be executed.<br>
+        First parameter is the text that will be displayed to the user on the choice button.<br>
+        The condition field comes with a context menu (right click). The condition must be a valid boolean formula. This field is mandatory.<br>
+
+        Logical operations are <code>and</code> for the conjunction, <code>or</code> for the disjunction and <code>not</code> for the negation. Overall, it uses the python syntax.
+      </div>
+    </div>
+
+
+    <h2>Mechanic Widgets</h2>
+    <div class="tab" id="mechanics-tab">
+      <div class='tab-buttons'>
+        <div id='mechanics-tab-b-0' class='tab-button sel' onclick="show_tab('mechanics-tab', 0, 2)">Chore</div>
+        <div id='mechanics-tab-b-1' class='tab-button' onclick="show_tab('mechanics-tab', 1, 2)">Tag</div>
+        <div id='mechanics-tab-b-2' class='tab-button' onclick="show_tab('mechanics-tab', 2, 2)">Location</div>
+      </div>
+
+      <div class="tab-window" id="mechanics-tab-0">
+        <h3>Chore</h3>
+        The Chore widget is the widget that allows to manage the chores.<br>
+        First parameter is wether you want to start or end a chore.<br>
+        Second parameter is the "nature" of the chore. For convenience, chores are separated between "Normal" and "Sex" chores. "Custom" are reserved for non-default (i.e., not defined in the base game) chores.<br>
+        The last parameter is the chore you want to start/end. If you selected the "Custom" option for the second parameter, the last parameter is the tag of the chore.
+      </div>
+
+      <div class="tab-window" id="mechanics-tab-1" style="display:none">
+        <h3>Tag [ALT+Y]</h3>
+        The Tag widget is the widget that allows to manage the tags. Tags are used in game to mark certain actions.<br>
+        First parameter is wether you want to add, remove or replace a tag in the tag list.<br>
+        Second parameter is the nature of the tag.
+        <ul>
+          <li>Event Tag: Tag that will last forever.</li>
+          <li>Daily Tag: Tag that will be removed at the end of the day.</li>
+          <li>Turnly Tag: Tag that will be removed at the end of a "turn" (i.e., only last for the current time period).</li>
+          <li>Timed Tag: Tag that will be removed after the specified amount of day(s).</li>
+          <li>Corruption Tag: Tag that will be added to a character, and count towards the corruption level's progression.</li>
+        </ul>
+        Third parameter is the name of the tag.<br>
+        Fourth parameter (optional: if you chose "Replace") is the tag that will replace the tag specified as third parameter.
+      </div>
+
+      <div class="tab-window" id="mechanics-tab-2" style="display:none">
+        <h3>Location</h3>
+        The Location widget is the widget that allows to automatically change the location of the character.<br>
+        First parameter is the overall location of the map.<br>
+        Second parameter is the map you want to teleport to.
+      </div>
+    </div>
+
+
+    <h2>Other Widgets</h2>
+    <div class="tab" id="other-tab">
+      <div class='tab-buttons'>
+        <div id='other-tab-b-0' class='tab-button sel' onclick="show_tab('other-tab', 0, 3)">Code</div>
+        <div id='other-tab-b-1' class='tab-button' onclick="show_tab('other-tab', 1, 3)">Call</div>
+        <div id='other-tab-b-2' class='tab-button' onclick="show_tab('other-tab', 2, 3)">Return</div>
+        <div id='other-tab-b-3' class='tab-button' onclick="show_tab('other-tab', 3, 3)">Label</div>
+      </div>
+
+      <div class="tab-window" id="other-tab-0">
+        <h3>Code [ALT+V]</h3>
+        The Code widget is the widget that allows to execute code during the scene.<br>
+        By default, if you want to execute python code, you either have to add a <code>$</code> in front of the line you want to execute (in case of a single line), or a <code>python:</code> instruction followed by a new line and correct indentation (following python's rules) (in case of multiple lines).<br>
+        It basically is used when managing variables.
+      </div>
+
+      <div class="tab-window" id="other-tab-1" style="display:none">
+        <h3>Call [ALT+B]</h3>
+        The Call widget is the widget that allows to call a function during the scene.<br>
+        The difference with the Code widget is that you can only provide a single line, and that the input field comes with a context menu of most used "call functions".
+      </div>
+
+      <div class="tab-window" id="other-tab-2" style="display:none">
+        <h3>Return [ALT+R]</h3>
+        The Return widget is the widget that makes the scene end.<br>
+        The first parameter is the returned value. This input field comes with a context menu containing all "special" returning values.<br>
+        The <code>__mod_return</code> value forces a stack pop (i.e., it forces a return in the function that called the scene).
+      </div>
+
+      <div class="tab-window" id="other-tab-3" style="display:none">
+        <h3>Label [ALT+L]</h3>
+        The Label widget is the widget that allows you to define a new label inside a scene.<br>
+        The first parameter is the name of the label.<br>
+        The second parameter is the list of the label's parameters, separated by a comma.<br>
+        You can then execute the code contained in the label by calling it, either with the Call widget by passing as parameter the name of the function <code>name()</code>, or with the Code widget by adding the line <code>call name()</code>.
+      </div>
+    </div>
+
+    <h2>Creating a mod</h2>
+    To create your mod, click on the "MY MOD" on the top center of the screen. You will have to enter a name for you name that will be displayed in game in the "Mod Manager" menu, a version for the mod and finally a label for your mod. This label will be executed at the start of the game. You can also specify an author name, as well as a description for you mod, but they are not mandatory.<br>
+    The order of the widgets have little to no importance, as the tool with automatically pack together blocks that are meant to be together.
+    
+    <h3 style="color:#63cb5d">Variable Declaration</h3>
+    This widget will be loaded at the game start. This is the place to initialize every variable your mod needs.<br>
+    If you want a variable to be initialized only <b>the first time the mod is loaded</b>, be sure to check the "Once" checkbox!
+
+    <h3 style="color:#7660ba">Inject Choice</h3>
+    This widget allows you to add a Choice into a pre-existing menu. To do so, you will have to specify the name of the choice that will be displayed to the player, prefered index (-1 being the second to last position, the last position being reserved to the "Do nothing" option), the target file where the menu you want to modify is located in, the line where the menu is OR the menu id of said menu. If both line number and ID are specified, the menu id has the priority. Finally, the name of the scene you want to inject.<br>
+    Additionnaly, you can provide a requirement (condition to be satisfied in order to select the choice), a condition (condition to be satisfied in order for the choice to appear), and if you want the injection to only happens once (first time the game is loaded with the mod).
+
+    <h3 style="color:#777">Inject Scene</h3>
+    This widget acts the same as the "Inject Choice" one, except that you are replacing the code at the specified location by the code from your selected scene. Note that it will also replace the line you are targeting, so it might be necessary to add it to your scene if that matters to you.
+
+    <h3 style="color:#ee5253">Include Scene</h3>
+    This widget will allow you to import a scene to your mod. Simply select the folder where the scene you want to import is, and the name of the scene.<br>
+    Be sure to import everything you want to include in your mod!<br>
+    <i>Note: There is no need to include scene you select from the "Inject Choice" or "Inject Scene" widget as there will be an automatic lookup and inclusion.</i>
+
+    <h2>Shortcuts</h2>
+    To facilitate the work flow, some button benefits from a shortcut to automatically add them after the current selection. The shortcut key is the left ALT key. Press that in combination with the key reserved to the button to trigger the addition.<br>
+    <span class='example'>Alt+T will add a Text widget, while Alt+A will add an Animation widget.</span>
+
+    <h3>Unspecified Shortcuts</h3>
+    Some shortcuts are not specified due to not belonging to any on-screen button. Here's a list of the shortcuts and explanation.
+    <ul>
+      <li><b>Alt + UP/DOWN ARROW</b>: Allows to move the selected widget to the previous (UP) or next (DOWN) widget on the timeline.</li>
+      <li><b>Alt + LEFT/RIGHT ARROW</b>: Allows to move the selected widget to the direct parent (LEFT) or first child (RIGHT) widget on the timeline.</li>
+      <li><b>Alt + ENTER</b>: Allows to add to the timeline the same type of widget as the currently selected one.</li>
+      <li><b>Alt + Shift + C</b>: Copy the current selected widget. This include any sub-widgets if the selected one is a parent.</li>
+      <li><b>Alt + Shift + V</b>: Paste the last copied widget (and sub-widgets).</li>
+    </ul>
+
+
+    <ul>
+      <li><b>Ctrl + Z</b>: Undo the last action.</li>
+      <li><b>Ctrl + Shift + Z</b>: Redo the last undone action.</li>
+    </ul>
+
+
+    <h2>Bug Reports & Suggestions</h2>
+    To report a bug or to make a suggestion, please DM me on Discord: pogefolu#1960
+    <div style="height:40px"></div>
+  </body>
+</html>

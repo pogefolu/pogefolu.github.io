@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Very Full Editor</title>
+    <link rel="stylesheet" href="theme/css.css">
+    <link rel="icon" type="image/png" href="theme/icon.png" sizes="32x32">
+  </head>
+
+  <!-- Some simple scripts... -->
+  <script src="src/game_files.js"></script>
+  <script src="src/data.js"></script>
+  <script src="src/script.js"></script>
+
+  <menu class='menu' id='contextmenu-textbox'></menu>
+  <menu class='menu' id='contextmenu-condition'></menu>
+  <menu class='menu' id='contextmenu-requirement'></menu>
+  <menu class='menu' id='contextmenu-files'></menu>
+  <menu class='menu' id='contextmenu-call'></menu>
+  <menu class='menu' id='contextmenu-return'></menu>
+  <menu class='menu' id='contextmenu-code'></menu>
+  <menu class='menu' id='contextmenu-menu'></menu>
+  <menu class='menu' id='contextmenu-screen'></menu>
+  
+  <body onload="init()">
+    <div class="columns" style="width: 100%; min-height: 100%; height: fit-content;">
+      <div id="left-menu">
+
+        <div class="toggle_menu" onclick="hide_menu(this, 'left-menu-content')" style="align-self: flex-end;"></div>
+
+        <div id='left-menu-content' style="width:100%; margin-top: 30px">
+          <img src="theme/logo.png"><br>
+          <label for="file-upload" class="custom-file-upload">
+            Load a Scene
+          </label>
+          <input type="file" id="file-upload" onchange="handleFileSelect(event)" accept=".rpy, *"/>
+          <br>
+          <label class="custom-file-upload" onclick="new_scene()">
+            New Scene
+          </label>
+          <div style="padding:6px; color:gray; text-align:right"><a href='./src/help.html' target="_blank" rel="noopener noreferrer">Need Help?</a></div>
+          <br>
+          
+          <div class='folder-name disable_highlight' onclick="toggle_show_custom()"><img id='custom-folder-icon' src='theme/icons/folder-open.svg'> custom</div>
+          <div id='custom-folder' class="folder disable_highlight"></div>
+
+        </div>
+        <div id='resizer' onmousedown="initResize(event)"></div>
+      </div>
+
+      <div class="rows" id="main-menu">
+        <!-- TOP MENU --> 
+        <div style="height: 80px; flex-grow: 0; position: relative; justify-content: space-evenly;" class="columns">
+
+          <div id='timeline-button' class='top-menu-button disable_highlight' onclick="timeline_button()">
+            <img src='theme/icons/timeline.svg'/>
+            TIMELINE
+          </div>
+
+          <div id='mod-button' class='top-menu-button disable_highlight' onclick="mod_button()">
+            <img src='theme/icons/configuration.svg'/>
+            MY MOD
+          </div>
+        </div>
+
+        <!-- TIMELINE CANVAS -->
+        <div id="canvas" ondragend='drop_handler'>
+          <div class="insertable_zone" ondragover="dragover_handler(this)" ondragend="drop_handler"></div>
+        </div>
+
+        <!-- MOD CANVAS -->
+        <div id="mod" ondragend='drop_handler' style="display: none;">
+          <div class="insertable_zone" ondragover="dragover_handler(this)" ondragend="drop_handler"></div>
+        </div>
+
+      </div>
+
+      <div id="right-menu-canvas" class="right-menu">
+
+        <div class="toggle_menu" onclick="hide_menu(this, 'right-menu-canvas-content')" style="align-self: flex-start;"></div>
+
+        <div id='right-menu-canvas-content'>
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-basic')"> BASIC </div>
+          <div id='bcont-basic' class="bcontainer">
+            <button class='b-text' onclick="add_textbox()">Text (T)</button>
+            <button class='b-text' onclick="add_message()">Message</button>
+            <button class='b-text' onclick="add_picture()">Picture</button>
+            <button class='b-animation' onclick="add_animation()">Animation (A)</button>
+            <button class='b-animation' onclick="add_frame()">Frame (F)</button>
+          </div>
+
+
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-char')"> CHARACTERS </div>
+          <div id="bcont-char" class="bcontainer">
+            <button class='b-character' onclick="add_display()">Display (D)</button>
+            <button class='b-character' onclick="add_stat()">Stat (S)</button>
+            <button class='b-character' onclick="add_outfit()">Outfit (O)</button>
+            <button class='b-character' onclick="add_sexrecord()">Sex Record</button>
+            <button class='b-character' onclick="add_state()">State (Q)</button>
+          </div>
+
+
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-branch')"> BRANCHING </div>
+          <div id="bcont-branch" class="bcontainer">
+            <button class='b-menu' onclick="add_menu()">Menu (M)</button>
+            <button class='b-menu' onclick="add_choice()">Choice (N)</button>
+            <button class='b-condition' onclick="add_condition()">Condition (C)</button>
+          </div>
+
+
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-mechanics')"> MECHANICS </div>
+          <div id="bcont-mechanics" class="bcontainer">
+            <button class='b-chore' onclick="add_chore()">Chore</button>
+            <button class='b-tag' onclick="add_tag()">Tag (Y)</button>
+            <button class='b-location' onclick="add_location()">Location</button>
+          </div>
+
+
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-others')"> OTHERS </div>
+          <div id="bcont-others" class="bcontainer">
+            <button class='b-return' onclick="add_return()">Return (R)</button>
+            <button class='b-code' onclick="add_code()">Code (V)</button>
+            <button class='b-call' onclick="add_call()">Call (B)</button>
+            <button class='b-label' onclick="add_label()">Label (L)</button>
+            <button class='b-screen' onclick="add_screen()">Screen</button>
+          </div>
+
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-render')"> RENDERING </div>
+          <div id="bcont-render" class="bcontainer">
+            <button onclick="clipboard_current_timeline()" class="b-special">
+              Copy to Clipboard
+            </button>
+          </div>
+
+          <div style="margin-top:20px"></div>
+        </div>
+      </div>
+
+      <div id="right-menu-mod" class="right-menu" style="display:none">
+
+        <div class="toggle_menu" onclick="hide_menu(this, 'right-menu-mod-content')" style="align-self: flex-start;"></div>
+
+        <div id='right-menu-mod-content'>
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-modding')"> MODDING </div>
+          <div id="bcont-modding" class="bcontainer">
+            <button class='b-code' onclick="add_variable_declaration()">Variable Declaration</button>
+            <button class='b-text' onclick="add_image()">Media</button>
+            <button class='b-animation' onclick="add_cleanup_declaration()">Cleanup</button>
+            <button class='b-menu' onclick="add_inject_choice()">Inject Choice</button>
+            <button class='b-label' onclick="add_inject_scene()">Inject Scene</button>
+            <button class='b-return' onclick="add_include()">Include Scene</button>
+          </div>
+
+          <div class='category line' onclick="simple_hide_toggle(this, 'bcont-mod-render')"> RENDERING </div>
+          <div id="bcont-mod-render" class="bcontainer">
+            <button onclick="render_timeline('canvas')" class="b-special">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
